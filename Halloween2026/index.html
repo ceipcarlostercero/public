@@ -3,157 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Makey Makey Halloween 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Rubik+Dirt&family=Patrick+Hand&display=swap" rel="stylesheet">
+<title>Makey Makey · Halloween 2026</title>
+<meta name="description" content="Panel de sonidos de terror para Makey Makey · CEIP Carlos III · Halloween 2026">
+<meta name="theme-color" content="#06070c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Creepster&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0b0f1a; --naranja:#ff7a1a; }
-  * { box-sizing:border-box; }
+  :root {
+    --bg:#06070c; --tinta:#ece6da; --tenue:#8b8a96; --linea:rgba(236,230,218,.12);
+    --naranja:#ff7a1a; --sangre:#d4142a;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { background:var(--bg); }
   body {
-    margin:0; min-height:100vh; color:#eee; overflow-x:hidden;
-    font-family:'Patrick Hand', cursive;
-    background:
-      radial-gradient(circle at 12% 12%, #f4efc7 0 55px, rgba(244,239,199,.35) 60px, transparent 140px),
-      radial-gradient(ellipse at 50% 120%, #2a1840 0%, transparent 60%),
-      linear-gradient(#101a2c, var(--bg) 70%);
+    min-height:100vh; color:var(--tinta); overflow-x:hidden; background:var(--bg);
+    font-family:'Inter', system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+    cursor:none;
   }
-  .flash { position:fixed; inset:0; background:#cfd8ff; opacity:0; pointer-events:none; z-index:50; }
-  .flash.on { animation:flash 1.2s; }
-  @keyframes flash { 0%,20%,40%{opacity:0} 10%{opacity:.8} 30%{opacity:.5} 50%{opacity:.9} 100%{opacity:0} }
+  body.temblor { animation:temblor .45s; }
+  @keyframes temblor { 0%,100%{transform:none} 15%{transform:translate(-6px,3px)} 30%{transform:translate(5px,-4px)} 45%{transform:translate(-4px,-2px)} 60%{transform:translate(3px,4px)} 80%{transform:translate(-2px,1px)} }
 
-  header { text-align:center; padding:24px 16px 8px; position:relative; }
-  h1 {
-    font-family:'Creepster', cursive; font-weight:400; margin:0;
-    font-size:clamp(48px, 10vw, 120px); letter-spacing:4px; color:var(--naranja);
-    text-shadow:0 0 18px rgba(255,122,26,.6), 4px 6px 0 #3a1500;
-  }
-  .sub {
-    font-family:'Rubik Dirt', cursive; font-size:clamp(20px,3.5vw,36px);
-    display:inline-block; padding:4px 22px; background:#1b1b1b; border-radius:6px;
-    transform:rotate(-2deg); border-bottom:4px solid var(--naranja);
-  }
-  .deco { position:absolute; font-size:42px; animation:volar 6s ease-in-out infinite; opacity:.85; }
-  .deco.b1 { left:18%; top:20px; } .deco.b2 { right:12%; top:60px; animation-delay:-2s; }
-  .deco.b3 { left:6%; top:150px; animation-delay:-4s; font-size:30px; }
-  .arana { position:absolute; right:3%; top:0; font-size:40px; animation:colgar 4s ease-in-out infinite; transform-origin:top; }
-  .arana::before { content:""; position:absolute; left:50%; top:-200px; width:1px; height:200px; background:#ccc; }
-  @keyframes volar { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-15px)} }
-  @keyframes colgar { 0%,100%{transform:translateY(0)} 50%{transform:translateY(30px)} }
+  /* ---------- Escenario ---------- */
+  .escena { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+    background:radial-gradient(ellipse 90% 70% at 70% 0%, #1b2140 0%, #0b0d18 45%, var(--bg) 80%); }
+  .capa { position:absolute; inset:-40px; will-change:transform; transition:transform 1.2s var(--ease); }
+  .luna { position:absolute; top:7vh; right:12vw; width:min(16vw,220px); aspect-ratio:1; border-radius:50%;
+    background:radial-gradient(circle at 38% 35%, #fffbe6 0%, #f1e7c1 40%, #c9bd93 75%, #a69a72 100%);
+    box-shadow:inset -18px -14px 40px rgba(40,30,10,.45), 0 0 60px 10px rgba(255,240,200,.22), 0 0 240px 90px rgba(150,170,255,.10); animation:luna 9s ease-in-out infinite; }
+  @keyframes luna { 50%{ box-shadow:inset -18px -14px 40px rgba(40,30,10,.45), 0 0 80px 18px rgba(255,240,200,.3), 0 0 280px 110px rgba(150,170,255,.14) } }
+  .luna::after { content:""; position:absolute; inset:0; border-radius:50%;
+    background:radial-gradient(circle at 30% 60%, rgba(120,110,80,.22), transparent 11%), radial-gradient(circle at 62% 30%, rgba(120,110,80,.18), transparent 8%), radial-gradient(circle at 70% 70%, rgba(120,110,80,.16), transparent 14%), radial-gradient(circle at 45% 40%, rgba(120,110,80,.12), transparent 22%); filter:blur(2px); }
+  .nube { position:absolute; height:60px; border-radius:50%; background:#0b0d18; filter:blur(14px); opacity:.85; animation:nube 60s linear infinite; }
+  @keyframes nube { from{transform:translateX(-30vw)} to{transform:translateX(130vw)} }
+  .silueta { position:absolute; left:0; right:0; bottom:0; width:100%; height:auto; }
+  #fx { position:fixed; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+  .grano { position:fixed; inset:-50%; z-index:60; pointer-events:none; opacity:.07; animation:grano 1s steps(6) infinite;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  @keyframes grano { 0%{transform:translate(0,0)} 20%{transform:translate(-5%,3%)} 40%{transform:translate(3%,-6%)} 60%{transform:translate(-7%,2%)} 80%{transform:translate(4%,5%)} 100%{transform:translate(0,0)} }
+  .vineta { position:fixed; inset:0; z-index:59; pointer-events:none; background:radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0,0,0,.75) 100%); }
+  .destello { position:fixed; inset:0; z-index:58; pointer-events:none; background:#d9e0ff; opacity:0; mix-blend-mode:screen; }
+  .destello.on { animation:destello 1.1s ease-out; }
+  @keyframes destello { 0%{opacity:0} 6%{opacity:.85} 12%{opacity:.1} 20%{opacity:.6} 40%{opacity:0} 55%{opacity:.25} 100%{opacity:0} }
+  .aparicion { position:fixed; left:50%; top:50%; width:min(80vh,80vw); aspect-ratio:1; z-index:1; pointer-events:none;
+    transform:translate(-50%,-48%) scale(.9); opacity:0; filter:blur(6px); mix-blend-mode:screen; transition:opacity 1.2s var(--ease), transform 3s var(--ease); }
+  .aparicion.on { opacity:.22; transform:translate(-50%,-50%) scale(1.05); }
+  .aparicion svg { width:100%; height:100%; }
 
-  .tablero {
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
-    gap:16px; padding:24px 16px; max-width:1500px; margin:0 auto;
-  }
+  /* ---------- Cursor ---------- */
+  .cursor, .cursor-halo { position:fixed; left:0; top:0; z-index:100; pointer-events:none; border-radius:50%; transform:translate(-50%,-50%); }
+  .cursor { width:8px; height:8px; background:var(--naranja); box-shadow:0 0 12px var(--naranja); }
+  .cursor-halo { width:42px; height:42px; border:1px solid rgba(255,122,26,.5); transition:width .4s var(--ease), height .4s var(--ease), border-color .4s; }
+  .cursor-halo.sobre { width:74px; height:74px; border-color:rgba(255,255,255,.6); }
+  @media (hover:none) { body{cursor:auto} .cursor,.cursor-halo{display:none} }
+
+  /* ---------- Intro ---------- */
+  .intro { position:fixed; inset:0; z-index:80; display:grid; place-items:center; text-align:center; padding:24px;
+    background:radial-gradient(ellipse at 50% 60%, rgba(40,10,10,.8), rgba(3,3,6,.98) 70%); backdrop-filter:blur(18px); transition:opacity 1.4s var(--ease), visibility 1.4s; }
+  .intro.fuera { opacity:0; visibility:hidden; }
+  .intro .kicker { animation:subir 1.4s .2s var(--ease) both; }
+  .intro h2 { font-family:'Cinzel', serif; font-weight:900; font-size:clamp(40px,8vw,112px); line-height:.95; letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff4e0 0%, #d9c9a8 55%, #6d5c44 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin:18px 0 26px; animation:subir 1.6s .4s var(--ease) both; }
+  .intro p { color:var(--tenue); max-width:44ch; margin:0 auto 40px; line-height:1.6; animation:subir 1.6s .6s var(--ease) both; }
+  .entrar { font:600 13px/1 'Inter'; letter-spacing:.32em; text-transform:uppercase; color:var(--tinta); background:none; cursor:none;
+    border:1px solid rgba(255,122,26,.6); padding:22px 44px; border-radius:999px; position:relative; overflow:hidden; animation:subir 1.6s .8s var(--ease) both; }
+  .entrar::before { content:""; position:absolute; inset:0; background:var(--naranja); transform:translateY(101%); transition:transform .7s var(--ease); z-index:-1; }
+  .entrar:hover::before, .entrar:focus-visible::before { transform:none; }
+  .entrar:hover, .entrar:focus-visible { color:#120800; outline:none; }
+  .latido { display:block; margin-top:28px; font-size:12px; color:var(--tenue); letter-spacing:.2em; text-transform:uppercase; animation:subir 1.6s 1s var(--ease) both, respirar 2.4s 2.6s infinite; }
+  @keyframes subir { from{opacity:0; transform:translateY(30px); filter:blur(8px)} to{opacity:1; transform:none; filter:none} }
+  @keyframes respirar { 50%{opacity:.35} }
+
+  /* ---------- Cabecera ---------- */
+  .contenido { position:relative; z-index:2; max-width:1680px; margin:0 auto; padding:0 clamp(16px,3vw,48px); }
+  header { padding:clamp(28px,6vh,72px) 0 clamp(24px,4vh,48px); max-width:min(1100px,72%); }
+  .kicker { font:500 12px/1 'Inter'; letter-spacing:.42em; text-transform:uppercase; color:var(--naranja); display:flex; align-items:center; gap:14px; }
+  .kicker::before { content:""; width:38px; height:1px; background:currentColor; }
+  h1 { font-family:'Creepster', cursive; font-weight:400; font-size:clamp(64px,11vw,184px); line-height:.85; letter-spacing:.02em; margin-top:14px;
+    background:linear-gradient(180deg,#ffb15c 0%, #ff7a1a 45%, #b8260b 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 28px rgba(255,100,20,.35)); animation:titila 7s infinite; }
+  @keyframes titila { 0%,89%,100%{opacity:1} 90%{opacity:.4} 91%{opacity:1} 93%{opacity:.6} 94%{opacity:1} }
+  .lema { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 22px; margin-top:22px; }
+  .lema strong { display:block; font-family:'Cinzel', serif; font-weight:700; font-size:clamp(18px,2vw,28px); letter-spacing:.12em; }
+  .lema span { color:var(--tenue); font-size:14px; }
+  .lema .barra { flex-basis:100%; max-width:420px; height:1px; background:linear-gradient(90deg, var(--naranja), transparent); transform-origin:left; animation:barra 2.8s var(--ease) infinite alternate; }
+  @keyframes barra { from{transform:scaleX(.3)} to{transform:scaleX(1)} }
+
+  /* ---------- Cartas ---------- */
+  .tablero { display:grid; grid-template-columns:repeat(8, minmax(0,1fr)); gap:clamp(10px,1.1vw,18px); perspective:1200px; }
   .carta {
-    --c:#fff; position:relative; border:5px solid var(--c); border-radius:10px;
-    background:radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--c) 35%, transparent), #0d0d14 75%);
-    box-shadow:0 0 14px color-mix(in srgb, var(--c) 50%, transparent);
-    display:flex; flex-direction:column; align-items:center; padding:14px 10px 16px;
-    cursor:pointer; user-select:none; transition:transform .12s, box-shadow .2s;
+    --c:#fff; --rx:0deg; --ry:0deg; --p:0;
+    position:relative; display:flex; flex-direction:column; text-align:left; color:inherit; font:inherit; cursor:none;
+    background:linear-gradient(180deg, rgba(20,22,34,.78), rgba(8,9,14,.92)); backdrop-filter:blur(6px);
+    border:1px solid var(--linea); border-radius:18px; padding:10px; overflow:hidden; isolation:isolate;
+    transform:rotateX(var(--rx)) rotateY(var(--ry)); transform-style:preserve-3d;
+    transition:transform .5s var(--ease), border-color .5s, box-shadow .6s var(--ease);
+    opacity:0; animation:entrarCarta 1.2s var(--ease) forwards; animation-delay:calc(var(--i) * 80ms + .2s);
   }
-  .carta.activa { transform:scale(1.06); box-shadow:0 0 40px var(--c), 0 0 80px var(--c); }
-  .icono { font-size:clamp(56px, 7vw, 90px); height:1.3em; display:flex; align-items:center; filter:drop-shadow(0 0 10px var(--c)); }
-  .carta.activa .icono { animation:temblar .25s infinite; }
-  @keyframes temblar { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
-  .cartel {
-    background:#e9d8b4; color:#1a1208; text-align:center; font-weight:bold;
-    font-size:clamp(16px,1.6vw,21px); line-height:1.1; padding:8px 10px; margin:10px 0 14px;
-    border-radius:4px; clip-path:polygon(3% 0,97% 4%,100% 50%,96% 100%,2% 96%,0 50%);
-    min-height:3.2em; display:flex; align-items:center; justify-content:center; width:100%;
-  }
-  .boton {
-    width:78px; height:78px; border-radius:50%; border:5px solid var(--c);
-    background:radial-gradient(circle at 35% 30%, #888, #333 60%, #111);
-    box-shadow:0 0 14px var(--c), inset 0 -6px 10px #000; transition:transform .1s;
-  }
-  .carta.activa .boton { transform:scale(.88); background:radial-gradient(circle at 35% 30%, #fff, var(--c) 60%); }
-  .tecla {
-    margin-top:12px; font-family:'Rubik Dirt', cursive; font-size:22px; color:var(--c);
-    border:2px dashed var(--c); border-radius:8px; padding:2px 12px; min-width:60px; text-align:center;
-  }
+  @keyframes entrarCarta { from{opacity:0; translate:0 40px} to{opacity:1; translate:0 0} }
+  .carta::before { content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; z-index:-1;
+    background:linear-gradient(160deg, var(--c), transparent 40%, transparent 70%, var(--c)); opacity:.45;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; transition:opacity .5s; }
+  .carta:hover, .carta:focus-visible { border-color:transparent; box-shadow:0 30px 60px -20px rgba(0,0,0,.8), 0 0 50px -10px var(--c); outline:none; }
+  .carta:hover::before, .carta:focus-visible::before { opacity:1; }
+  .arte { position:relative; aspect-ratio:4/5; border-radius:11px; overflow:hidden; background:#000; }
+  .arte svg { position:absolute; inset:0; width:100%; height:100%; transform:scale(1.04); transition:transform 1.2s var(--ease), filter 1.2s; filter:saturate(.85) brightness(.9); }
+  .arte svg { object-fit:cover; }
+  .arte::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 50%, rgba(6,7,12,.85)); }
+  .carta:hover .arte svg { transform:scale(1.12) translateY(-2%); filter:saturate(1.1) brightness(1); }
+  .num { position:absolute; top:12px; left:12px; z-index:2; font:600 11px/1 'Inter'; letter-spacing:.2em; color:rgba(255,255,255,.75); mix-blend-mode:difference; }
+  .info { padding:14px 6px 6px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .info h3 { font-family:'Cinzel', serif; font-weight:700; font-size:clamp(14px,1.05vw,18px); letter-spacing:.06em; line-height:1.15; }
+  .info q { color:var(--tenue); font-size:13px; font-style:italic; quotes:"“" "”"; }
+  .pie { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:12px; }
+  kbd { font:600 12px/1 'Inter'; min-width:38px; height:34px; padding:0 10px; display:inline-grid; place-items:center; border-radius:8px; color:var(--tinta);
+    background:linear-gradient(180deg,#2a2c38,#15161e); border:1px solid rgba(255,255,255,.12); box-shadow:0 3px 0 #000, inset 0 1px 0 rgba(255,255,255,.08); transition:transform .15s, box-shadow .15s, background .3s; }
+  .ondas { display:flex; gap:3px; align-items:flex-end; height:18px; }
+  .ondas i { width:3px; height:20%; background:var(--c); border-radius:2px; opacity:.35; transition:height .12s; }
+  .progreso { position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--c); transform-origin:left; transform:scaleX(var(--p)); box-shadow:0 0 12px var(--c); }
+  .carta.activa { box-shadow:0 0 0 1px var(--c), 0 0 70px -6px var(--c), 0 30px 60px -20px #000; }
+  .carta.activa::before { opacity:1; }
+  .carta.activa .arte svg { transform:scale(1.16); filter:saturate(1.25) brightness(1.1); animation:latir .9s var(--ease) infinite; }
+  @keyframes latir { 50%{ transform:scale(1.2) } }
+  .carta.activa kbd { transform:translateY(3px); box-shadow:0 0 0 #000, 0 0 16px var(--c); background:var(--c); color:#000; }
+  .carta.activa .ondas i { opacity:1; }
+  .onda { position:absolute; left:50%; top:40%; width:30%; aspect-ratio:1; border-radius:50%; border:2px solid var(--c); transform:translate(-50%,-50%) scale(.2); opacity:0; pointer-events:none; z-index:3; }
+  .onda.on { animation:onda 1s var(--ease); }
+  @keyframes onda { 0%{opacity:.9; transform:translate(-50%,-50%) scale(.2)} 100%{opacity:0; transform:translate(-50%,-50%) scale(4)} }
 
-  .extras { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; padding:0 16px 16px; }
-  .extras .carta { flex-direction:row; gap:12px; padding:8px 16px; }
-  .extras .icono { font-size:36px; height:auto; }
-  .extras .cartel { margin:0; min-height:0; width:auto; }
-  .extras .tecla { margin:0; }
+  /* ---------- Extras ---------- */
+  .extras { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:clamp(18px,3vh,32px); }
+  .extras .carta { flex-direction:row; align-items:center; gap:14px; padding:8px 14px 8px 8px; border-radius:999px; min-width:250px; }
+  .extras .arte { width:52px; aspect-ratio:1; border-radius:50%; flex:none; }
+  .extras .arte::after, .extras .num { display:none; }
+  .extras .info { padding:0; flex:1; }
+  .extras .info h3 { font-size:14px; }
+  .extras .info q { font-size:12px; }
+  .extras .pie { padding:0; margin:0; gap:10px; }
 
-  footer { text-align:center; padding:8px 16px 90px; color:#aab; font-size:18px; }
-  .calabazas { position:fixed; bottom:0; left:0; right:0; display:flex; justify-content:space-between;
-    font-size:48px; padding:0 10px; pointer-events:none;
-    background:linear-gradient(transparent, #05070c); }
-  .calabazas span { animation:brillo 2s infinite alternate; }
-  @keyframes brillo { from{filter:drop-shadow(0 0 4px #f80)} to{filter:drop-shadow(0 0 18px #f80)} }
+  footer { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; padding:clamp(28px,5vh,56px) 0 40px; color:var(--tenue); font-size:13px; border-top:1px solid var(--linea); margin-top:clamp(24px,5vh,56px); }
+  footer b { color:var(--tinta); font-weight:500; }
+  .parar { font:600 11px/1 'Inter'; letter-spacing:.24em; text-transform:uppercase; color:var(--tinta); background:none; border:1px solid var(--linea); padding:14px 22px; border-radius:999px; cursor:none; transition:border-color .3s, background .3s; }
+  .parar:hover, .parar:focus-visible { border-color:var(--sangre); background:rgba(212,20,42,.15); outline:none; }
+
+  @media (max-width:1280px) { .tablero{grid-template-columns:repeat(4,minmax(0,1fr))} }
+  @media (max-width:720px) {
+    .tablero{grid-template-columns:repeat(2,minmax(0,1fr))}
+    header{max-width:none}
+    .intro .kicker{letter-spacing:.28em} .intro .kicker::before{display:none}
+    .extras .carta{min-width:0; width:100%}
+  }
+  @media (prefers-reduced-motion:reduce) {
+    *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
 </style>
 </head>
 <body>
-<div class="flash" id="flash"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="brillo"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="borroso"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="humo"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter>
+    <radialGradient id="noche" cx="50%" cy="30%" r="80%"><stop offset="0" stop-color="#1c2438"/><stop offset="1" stop-color="#05060a"/></radialGradient>
+    <linearGradient id="luz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb347"/><stop offset="1" stop-color="#ff5a00" stop-opacity="0"/></linearGradient>
+  </defs>
+</svg>
 
-<header>
-  <span class="deco b1">🦇</span><span class="deco b2">🦇</span><span class="deco b3">👻</span>
-  <span class="arana">🕷️</span>
-  <h1>MAKEY MAKEY</h1>
-  <div class="sub">¡PULSA UN CONECTOR!</div>
-</header>
+<!-- Escenario con parallax -->
+<div class="escena" aria-hidden="true">
+  <div class="capa" data-prof="8"><div class="luna"></div></div>
+  <div class="capa" data-prof="14">
+    <div class="nube" style="top:12vh;width:38vw"></div>
+    <div class="nube" style="top:22vh;width:26vw;animation-delay:-25s;animation-duration:80s"></div>
+  </div>
+  <div class="capa" data-prof="22">
+    <svg class="silueta" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMax slice" style="opacity:.55">
+      <path fill="#0d0f1c" d="M0 420V300L120 280 240 300 320 250 380 270 420 160 430 120 440 160 470 150 480 90 490 150 520 160 530 110 540 160 580 175 600 250 700 270 820 240 960 280 1100 230 1240 270 1380 220 1600 260V420Z"/>
+      <g fill="#ffb347" opacity=".7"><rect x="477" y="120" width="6" height="10"/><rect x="527" y="140" width="5" height="8"/><rect x="438" y="190" width="5" height="9"/></g>
+    </svg>
+  </div>
+  <div class="capa" data-prof="36">
+    <svg class="silueta" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMax slice">
+      <path fill="#050609" d="M0 420V340Q100 320 200 345T420 335 640 350 900 330 1150 352 1400 334 1600 345V420Z"/>
+      <g fill="#050609">
+        <path d="M1380 345V120L1376 60 1384 60 1388 120 1430 70 1440 74 1396 140 1460 110 1464 118 1398 170 1400 345Z"/>
+        <path d="M1394 150L1340 100 1346 94 1398 140ZM1386 220L1310 180 1316 172 1390 208Z"/>
+        <path d="M150 345V170L120 120 126 116 156 160 160 80 168 80 166 170 210 110 216 116 170 190 172 345Z"/>
+        <path d="M720 350v-40h30v40zM760 350v-28q14-16 28 0v28zM1000 345v-34h8v-14h8v14h8v8h-8v26z"/>
+        <path d="M300 345v-30q16-18 32 0v30zM1150 350v-36q16-18 32 0v36z"/>
+      </g>
+    </svg>
+  </div>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="aparicion" id="aparicion" aria-hidden="true"></div>
+<div class="destello" id="destello"></div>
+<div class="vineta"></div>
+<div class="grano"></div>
+<div class="cursor" id="cursor"></div><div class="cursor-halo" id="halo"></div>
 
-<main class="tablero" id="tablero"></main>
-<section class="extras" id="extras"></section>
+<!-- Intro -->
+<div class="intro" id="intro" role="dialog" aria-label="Bienvenida">
+  <div>
+    <div class="kicker" style="justify-content:center">CEIP Carlos III · Halloween 2026</div>
+    <h2>La noche<br>de los sonidos</h2>
+    <p>Conecta el Makey Makey, toca los conectores y despierta a lo que duerme dentro de estas cartas.</p>
+    <button class="entrar" id="entrar">Entra si te atreves</button>
+    <span class="latido">o pulsa cualquier conector</span>
+  </div>
+</div>
 
-<footer>Esc = parar todos los sonidos · también puedes hacer clic en las cartas</footer>
-<div class="calabazas"><span>🎃</span><span>🪦</span><span>🎃</span><span>🪦</span><span>🎃</span></div>
+<div class="contenido">
+  <header>
+    <div>
+      <div class="kicker">Panel de sonidos · Halloween 2026</div>
+      <h1>Makey Makey</h1>
+    </div>
+    <div class="lema">
+      <strong>¡Pulsa un conector!</strong>
+      <span>Frontal ↑ ↓ ← → Espacio · Trasera W A S D F G</span>
+      <div class="barra"></div>
+    </div>
+  </header>
 
+  <main class="tablero" id="tablero"></main>
+  <section class="extras" id="extras" aria-label="Sonidos extra"></section>
+
+  <footer>
+    <span><b>Esc</b> detiene todos los sonidos · también puedes hacer clic en las cartas</span>
+    <button class="parar" id="parar">Silencio</button>
+  </footer>
+</div>
+
+<script src="dibujos.js"></script>
 <script>
   // Teclas del Makey Makey: frontal (flechas y espacio) y trasera (W A S D F G)
   const sonidos = [
-    { key:'ArrowUp',    tecla:'↑',   nombre:'PUERTA',                    icono:'🚪', color:'#ff7a1a', src:'sonidos/1-puerta.mp3' },
-    { key:'ArrowDown',  tecla:'↓',   nombre:'TIMBRE COLEGIO',            icono:'🔔', color:'#ff2a2a', src:'sonidos/2-timbre.mp3' },
-    { key:'ArrowLeft',  tecla:'←',   nombre:'VIENTO',                    icono:'🌬️', color:'#1fb6ff', src:'sonidos/3-viento.mp3' },
-    { key:'ArrowRight', tecla:'→',   nombre:'RAYOS Y TRUENOS',           icono:'⚡', color:'#a24bff', src:'sonidos/4-rayos.mp3', rayo:true },
-    { key:' ',          tecla:'ESPACIO', nombre:'VOZ 1: “Venid acercaos…”', icono:'👻', color:'#35e05a', src:'sonidos/5-voz1.mp3' },
-    { key:'w',          tecla:'W',   nombre:'VOZ 2: “Venid pequeños…”',  icono:'💀', color:'#ffd21a', src:'sonidos/6-voz2.mp3' },
-    { key:'a',          tecla:'A',   nombre:'VOZ 3: “Por fin…”',         icono:'😱', color:'#e83cff', src:'sonidos/7-voz3.mp3' },
-    { key:'s',          tecla:'S',   nombre:'MELODÍA TERRORÍFICA',       icono:'🎵', color:'#22d3ee', src:'sonidos/8-melodia.mp3' },
+    { key:'ArrowUp',    tecla:'↑',  nombre:'Puerta',          cita:'Algo empuja desde dentro', dibujo:'puerta',  color:'#ff7a1a', src:'sonidos/1-puerta.mp3' },
+    { key:'ArrowDown',  tecla:'↓',  nombre:'Timbre colegio',  cita:'Nadie debería estar aquí', dibujo:'timbre',  color:'#ff3b3b', src:'sonidos/2-timbre.mp3' },
+    { key:'ArrowLeft',  tecla:'←',  nombre:'Viento',          cita:'Susurra tu nombre',        dibujo:'viento',  color:'#3cc4ff', src:'sonidos/3-viento.mp3' },
+    { key:'ArrowRight', tecla:'→',  nombre:'Rayos y truenos', cita:'El cielo se rompe',        dibujo:'rayos',   color:'#a96bff', src:'sonidos/4-rayos.mp3', rayo:true },
+    { key:' ',          tecla:'Espacio', nombre:'Voz I',      cita:'Venid, acercaos…',         dibujo:'voz1',    color:'#3fe46a', src:'sonidos/5-voz1.mp3', voz:true },
+    { key:'w',          tecla:'W',  nombre:'Voz II',          cita:'Venid, pequeños…',         dibujo:'voz2',    color:'#ffd21a', src:'sonidos/6-voz2.mp3', voz:true },
+    { key:'a',          tecla:'A',  nombre:'Voz III',         cita:'Por fin…',                 dibujo:'voz3',    color:'#e14bff', src:'sonidos/7-voz3.mp3', voz:true },
+    { key:'s',          tecla:'S',  nombre:'Melodía terrorífica', cita:'La última canción',    dibujo:'melodia', color:'#ff2d4a', src:'sonidos/8-melodia.mp3' },
   ];
   const extras = [
-    { key:'d', tecla:'D', nombre:'PASOS',             icono:'👣', color:'#c08a5a', src:'sonidos/pasos.mp3' },
-    { key:'f', tecla:'F', nombre:'RISA MALVADA',      icono:'😈', color:'#ff3355', src:'sonidos/risa.mp3' },
-    { key:'g', tecla:'G', nombre:'FONDO (ON / OFF)',  icono:'🕯️', color:'#8899ff', src:'sonidos/fondo.mp3', fondo:true },
+    { key:'d', tecla:'D', nombre:'Pasos',        cita:'Se acercan',          dibujo:'pasos', color:'#c9925f', src:'sonidos/pasos.mp3' },
+    { key:'f', tecla:'F', nombre:'Risa malvada', cita:'Ja… ja… ja…',         dibujo:'risa',  color:'#ff3355', src:'sonidos/risa.mp3' },
+    { key:'g', tecla:'G', nombre:'Ambiente',     cita:'Música de fondo · on/off', dibujo:'fondo', color:'#8f9bff', src:'sonidos/fondo.mp3', fondo:true },
   ];
 
+  const arte = n => dibujos[n].replace('<svg ', '<svg preserveAspectRatio="xMidYMid slice" ');
   const mapa = {};
-  function crear(s, contenedor) {
-    const el = document.createElement('div');
+  const activos = new Set();
+  let energia = 0;
+
+  function crear(s, i, contenedor) {
+    const el = document.createElement('button');
     el.className = 'carta';
     el.style.setProperty('--c', s.color);
-    el.innerHTML = `<div class="icono">${s.icono}</div><div class="cartel">${s.nombre}</div>`
-                 + (contenedor.id === 'tablero' ? '<div class="boton"></div>' : '')
-                 + `<div class="tecla">${s.tecla}</div>`;
+    el.style.setProperty('--i', i);
+    el.setAttribute('aria-label', `${s.nombre}. Tecla ${s.tecla}`);
+    el.innerHTML = `<div class="arte">${arte(s.dibujo)}<span class="num">${String(i + 1).padStart(2, '0')}</span></div>
+      <div class="info"><h3>${s.nombre}</h3><q>${s.cita}</q>
+      <div class="pie"><span class="ondas">${'<i></i>'.repeat(5)}</span><kbd>${s.tecla}</kbd></div></div>
+      <span class="onda"></span><span class="progreso"></span>`;
+    s.el = el;
+    s.ondas = [...el.querySelectorAll('.ondas i')];
     s.audio = new Audio(s.src);
     s.audio.preload = 'auto';
-    if (s.fondo) { s.audio.loop = true; s.audio.volume = .5; }
-    s.el = el;
-    s.audio.addEventListener('ended', () => el.classList.remove('activa'));
+    if (s.fondo) { s.audio.loop = true; s.audio.volume = .55; }
+    s.audio.addEventListener('ended', () => apagar(s));
     el.addEventListener('click', () => tocar(s));
+    // Inclinación 3D
+    el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--ry', ((e.clientX - r.left) / r.width - .5) * 14 + 'deg');
+      el.style.setProperty('--rx', -((e.clientY - r.top) / r.height - .5) * 14 + 'deg');
+    });
+    el.addEventListener('pointerleave', () => { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); });
     contenedor.appendChild(el);
     mapa[s.key] = s;
   }
-  sonidos.forEach(s => crear(s, document.getElementById('tablero')));
-  extras.forEach(s => crear(s, document.getElementById('extras')));
+  sonidos.forEach((s, i) => crear(s, i, document.getElementById('tablero')));
+  extras.forEach((s, i) => crear(s, i + sonidos.length, document.getElementById('extras')));
 
+  const aparicion = document.getElementById('aparicion');
   function tocar(s) {
-    if (s.fondo && !s.audio.paused) { s.audio.pause(); s.el.classList.remove('activa'); return; }
+    cerrarIntro();
+    if (s.fondo && !s.audio.paused) return apagar(s, true);
     s.audio.currentTime = 0;
-    s.audio.play();
+    s.audio.play().catch(() => {});
     s.el.classList.add('activa');
-    if (s.rayo) {
-      const f = document.getElementById('flash');
-      f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
-    }
+    activos.add(s);
+    energia = 1;
+    const o = s.el.querySelector('.onda');
+    o.classList.remove('on'); void o.offsetWidth; o.classList.add('on');
+    if (s.rayo) relampago();
+    if (s.voz) { aparicion.innerHTML = arte(s.dibujo); aparicion.classList.add('on'); }
   }
-
-  function pararTodo() {
-    Object.values(mapa).forEach(s => { s.audio.pause(); s.audio.currentTime = 0; s.el.classList.remove('activa'); });
+  function apagar(s, parar) {
+    if (parar) { s.audio.pause(); s.audio.currentTime = 0; }
+    s.el.classList.remove('activa');
+    s.el.style.setProperty('--p', 0);
+    activos.delete(s);
+    if (s.voz && ![...activos].some(a => a.voz)) aparicion.classList.remove('on');
   }
+  function pararTodo() { Object.values(mapa).forEach(s => apagar(s, true)); }
+  document.getElementById('parar').addEventListener('click', pararTodo);
 
+  // Barra de progreso y ecualizador mientras suenan
+  (function bucle(t) {
+    activos.forEach(s => {
+      if (s.audio.duration) s.el.style.setProperty('--p', s.fondo ? 1 : s.audio.currentTime / s.audio.duration);
+      s.ondas.forEach((b, k) => b.style.height = 20 + Math.abs(Math.sin(t / 110 + k * 1.3 + s.key.length)) * 80 + '%');
+    });
+    requestAnimationFrame(bucle);
+  })(0);
+
+  // Teclado / Makey Makey
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') return pararTodo();
     const s = mapa[e.key.length === 1 ? e.key.toLowerCase() : e.key];
@@ -161,6 +332,70 @@
     e.preventDefault();
     if (!e.repeat) tocar(s);
   });
+
+  // Intro
+  const intro = document.getElementById('intro');
+  function cerrarIntro() { intro.classList.add('fuera'); }
+  document.getElementById('entrar').addEventListener('click', cerrarIntro);
+  document.getElementById('entrar').focus({ preventScroll:true });
+
+  // Cursor y parallax
+  const cursor = document.getElementById('cursor'), halo = document.getElementById('halo');
+  const capas = [...document.querySelectorAll('.capa')];
+  let mx = innerWidth / 2, my = innerHeight / 2, hx = mx, hy = my;
+  addEventListener('pointermove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    const dx = mx / innerWidth - .5, dy = my / innerHeight - .5;
+    capas.forEach(c => c.style.transform = `translate(${-dx * c.dataset.prof}px,${-dy * c.dataset.prof}px)`);
+    halo.classList.toggle('sobre', !!e.target.closest('button'));
+  });
+  (function seguir() { hx += (mx - hx) * .15; hy += (my - hy) * .15; halo.style.transform = `translate(${hx}px,${hy}px) translate(-50%,-50%)`; requestAnimationFrame(seguir); })();
+
+  // Lienzo: niebla, brasas y relámpagos
+  const cv = document.getElementById('fx'), cx = cv.getContext('2d');
+  let W, H, rayo = null;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  function medir() { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; }
+  medir(); addEventListener('resize', medir);
+  const bancos = Array.from({ length: 14 }, () => ({ x: Math.random(), y: .55 + Math.random() * .5, r: .25 + Math.random() * .3, v: (Math.random() - .5) * .0004 }));
+  const brasas = Array.from({ length: 70 }, nuevaBrasa);
+  function nuevaBrasa() { return { x: Math.random(), y: 1 + Math.random() * .3, v: .0006 + Math.random() * .0016, s: Math.random() * 2 + .6, f: Math.random() * 6 }; }
+
+  function relampago() {
+    const d = document.getElementById('destello');
+    d.classList.remove('on'); void d.offsetWidth; d.classList.add('on');
+    document.body.classList.remove('temblor'); void document.body.offsetWidth; document.body.classList.add('temblor');
+    const pts = []; let x = W * (.3 + Math.random() * .4), y = 0;
+    while (y < H * .8) { pts.push([x, y]); x += (Math.random() - .5) * 90 * dpr; y += (20 + Math.random() * 40) * dpr; }
+    rayo = { pts, vida: 1 };
+  }
+
+  (function dibujar(t) {
+    cx.clearRect(0, 0, W, H);
+    energia *= .985;
+    cx.globalCompositeOperation = 'lighter';
+    bancos.forEach(b => {
+      b.x += b.v; if (b.x < -.4) b.x = 1.4; if (b.x > 1.4) b.x = -.4;
+      const g = cx.createRadialGradient(b.x * W, b.y * H, 0, b.x * W, b.y * H, b.r * W);
+      g.addColorStop(0, `rgba(120,130,160,${.06 + energia * .05})`); g.addColorStop(1, 'rgba(120,130,160,0)');
+      cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+    });
+    brasas.forEach((p, i) => {
+      p.y -= p.v * (1 + energia * 2); p.x += Math.sin(t / 900 + p.f) * .0005;
+      if (p.y < -.05) brasas[i] = nuevaBrasa();
+      const a = .4 + Math.sin(t / 200 + p.f) * .3;
+      cx.fillStyle = `rgba(255,${120 + (p.f * 15 | 0)},40,${a})`;
+      cx.beginPath(); cx.arc(p.x * W, p.y * H, p.s * dpr, 0, 7); cx.fill();
+    });
+    if (rayo && rayo.vida > 0) {
+      cx.strokeStyle = `rgba(225,215,255,${rayo.vida})`; cx.lineWidth = 3 * dpr; cx.shadowColor = '#a96bff'; cx.shadowBlur = 30 * dpr;
+      cx.beginPath(); rayo.pts.forEach(([x, y], k) => k ? cx.lineTo(x, y) : cx.moveTo(x, y)); cx.stroke();
+      cx.shadowBlur = 0; rayo.vida -= .03;
+    }
+    cx.globalCompositeOperation = 'source-over';
+    requestAnimationFrame(dibujar);
+  })(0);
 </script>
 </body>
 </html>
