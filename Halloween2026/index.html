@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Makey Makey Halloween 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Rubik+Dirt&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0f1a; --naranja:#ff7a1a; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; color:#eee; overflow-x:hidden;
+    font-family:'Patrick Hand', cursive;
+    background:
+      radial-gradient(circle at 12% 12%, #f4efc7 0 55px, rgba(244,239,199,.35) 60px, transparent 140px),
+      radial-gradient(ellipse at 50% 120%, #2a1840 0%, transparent 60%),
+      linear-gradient(#101a2c, var(--bg) 70%);
+  }
+  .flash { position:fixed; inset:0; background:#cfd8ff; opacity:0; pointer-events:none; z-index:50; }
+  .flash.on { animation:flash 1.2s; }
+  @keyframes flash { 0%,20%,40%{opacity:0} 10%{opacity:.8} 30%{opacity:.5} 50%{opacity:.9} 100%{opacity:0} }
+
+  header { text-align:center; padding:24px 16px 8px; position:relative; }
+  h1 {
+    font-family:'Creepster', cursive; font-weight:400; margin:0;
+    font-size:clamp(48px, 10vw, 120px); letter-spacing:4px; color:var(--naranja);
+    text-shadow:0 0 18px rgba(255,122,26,.6), 4px 6px 0 #3a1500;
+  }
+  .sub {
+    font-family:'Rubik Dirt', cursive; font-size:clamp(20px,3.5vw,36px);
+    display:inline-block; padding:4px 22px; background:#1b1b1b; border-radius:6px;
+    transform:rotate(-2deg); border-bottom:4px solid var(--naranja);
+  }
+  .deco { position:absolute; font-size:42px; animation:volar 6s ease-in-out infinite; opacity:.85; }
+  .deco.b1 { left:18%; top:20px; } .deco.b2 { right:12%; top:60px; animation-delay:-2s; }
+  .deco.b3 { left:6%; top:150px; animation-delay:-4s; font-size:30px; }
+  .arana { position:absolute; right:3%; top:0; font-size:40px; animation:colgar 4s ease-in-out infinite; transform-origin:top; }
+  .arana::before { content:""; position:absolute; left:50%; top:-200px; width:1px; height:200px; background:#ccc; }
+  @keyframes volar { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-15px)} }
+  @keyframes colgar { 0%,100%{transform:translateY(0)} 50%{transform:translateY(30px)} }
+
+  .tablero {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:16px; padding:24px 16px; max-width:1500px; margin:0 auto;
+  }
+  .carta {
+    --c:#fff; position:relative; border:5px solid var(--c); border-radius:10px;
+    background:radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--c) 35%, transparent), #0d0d14 75%);
+    box-shadow:0 0 14px color-mix(in srgb, var(--c) 50%, transparent);
+    display:flex; flex-direction:column; align-items:center; padding:14px 10px 16px;
+    cursor:pointer; user-select:none; transition:transform .12s, box-shadow .2s;
+  }
+  .carta.activa { transform:scale(1.06); box-shadow:0 0 40px var(--c), 0 0 80px var(--c); }
+  .icono { font-size:clamp(56px, 7vw, 90px); height:1.3em; display:flex; align-items:center; filter:drop-shadow(0 0 10px var(--c)); }
+  .carta.activa .icono { animation:temblar .25s infinite; }
+  @keyframes temblar { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
+  .cartel {
+    background:#e9d8b4; color:#1a1208; text-align:center; font-weight:bold;
+    font-size:clamp(16px,1.6vw,21px); line-height:1.1; padding:8px 10px; margin:10px 0 14px;
+    border-radius:4px; clip-path:polygon(3% 0,97% 4%,100% 50%,96% 100%,2% 96%,0 50%);
+    min-height:3.2em; display:flex; align-items:center; justify-content:center; width:100%;
+  }
+  .boton {
+    width:78px; height:78px; border-radius:50%; border:5px solid var(--c);
+    background:radial-gradient(circle at 35% 30%, #888, #333 60%, #111);
+    box-shadow:0 0 14px var(--c), inset 0 -6px 10px #000; transition:transform .1s;
+  }
+  .carta.activa .boton { transform:scale(.88); background:radial-gradient(circle at 35% 30%, #fff, var(--c) 60%); }
+  .tecla {
+    margin-top:12px; font-family:'Rubik Dirt', cursive; font-size:22px; color:var(--c);
+    border:2px dashed var(--c); border-radius:8px; padding:2px 12px; min-width:60px; text-align:center;
+  }
+
+  .extras { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; padding:0 16px 16px; }
+  .extras .carta { flex-direction:row; gap:12px; padding:8px 16px; }
+  .extras .icono { font-size:36px; height:auto; }
+  .extras .cartel { margin:0; min-height:0; width:auto; }
+  .extras .tecla { margin:0; }
+
+  footer { text-align:center; padding:8px 16px 90px; color:#aab; font-size:18px; }
+  .calabazas { position:fixed; bottom:0; left:0; right:0; display:flex; justify-content:space-between;
+    font-size:48px; padding:0 10px; pointer-events:none;
+    background:linear-gradient(transparent, #05070c); }
+  .calabazas span { animation:brillo 2s infinite alternate; }
+  @keyframes brillo { from{filter:drop-shadow(0 0 4px #f80)} to{filter:drop-shadow(0 0 18px #f80)} }
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+
+<header>
+  <span class="deco b1">🦇</span><span class="deco b2">🦇</span><span class="deco b3">👻</span>
+  <span class="arana">🕷️</span>
+  <h1>MAKEY MAKEY</h1>
+  <div class="sub">¡PULSA UN CONECTOR!</div>
+</header>
+
+<main class="tablero" id="tablero"></main>
+<section class="extras" id="extras"></section>
+
+<footer>Esc = parar todos los sonidos · también puedes hacer clic en las cartas</footer>
+<div class="calabazas"><span>🎃</span><span>🪦</span><span>🎃</span><span>🪦</span><span>🎃</span></div>
+
+<script>
+  // Teclas del Makey Makey: frontal (flechas y espacio) y trasera (W A S D F G)
+  const sonidos = [
+    { key:'ArrowUp',    tecla:'↑',   nombre:'PUERTA',                    icono:'🚪', color:'#ff7a1a', src:'sonidos/1-puerta.mp3' },
+    { key:'ArrowDown',  tecla:'↓',   nombre:'TIMBRE COLEGIO',            icono:'🔔', color:'#ff2a2a', src:'sonidos/2-timbre.mp3' },
+    { key:'ArrowLeft',  tecla:'←',   nombre:'VIENTO',                    icono:'🌬️', color:'#1fb6ff', src:'sonidos/3-viento.mp3' },
+    { key:'ArrowRight', tecla:'→',   nombre:'RAYOS Y TRUENOS',           icono:'⚡', color:'#a24bff', src:'sonidos/4-rayos.mp3', rayo:true },
+    { key:' ',          tecla:'ESPACIO', nombre:'VOZ 1: “Venid acercaos…”', icono:'👻', color:'#35e05a', src:'sonidos/5-voz1.mp3' },
+    { key:'w',          tecla:'W',   nombre:'VOZ 2: “Venid pequeños…”',  icono:'💀', color:'#ffd21a', src:'sonidos/6-voz2.mp3' },
+    { key:'a',          tecla:'A',   nombre:'VOZ 3: “Por fin…”',         icono:'😱', color:'#e83cff', src:'sonidos/7-voz3.mp3' },
+    { key:'s',          tecla:'S',   nombre:'MELODÍA TERRORÍFICA',       icono:'🎵', color:'#22d3ee', src:'sonidos/8-melodia.mp3' },
+  ];
+  const extras = [
+    { key:'d', tecla:'D', nombre:'PASOS',             icono:'👣', color:'#c08a5a', src:'sonidos/pasos.mp3' },
+    { key:'f', tecla:'F', nombre:'RISA MALVADA',      icono:'😈', color:'#ff3355', src:'sonidos/risa.mp3' },
+    { key:'g', tecla:'G', nombre:'FONDO (ON / OFF)',  icono:'🕯️', color:'#8899ff', src:'sonidos/fondo.mp3', fondo:true },
+  ];
+
+  const mapa = {};
+  function crear(s, contenedor) {
+    const el = document.createElement('div');
+    el.className = 'carta';
+    el.style.setProperty('--c', s.color);
+    el.innerHTML = `<div class="icono">${s.icono}</div><div class="cartel">${s.nombre}</div>`
+                 + (contenedor.id === 'tablero' ? '<div class="boton"></div>' : '')
+                 + `<div class="tecla">${s.tecla}</div>`;
+    s.audio = new Audio(s.src);
+    s.audio.preload = 'auto';
+    if (s.fondo) { s.audio.loop = true; s.audio.volume = .5; }
+    s.el = el;
+    s.audio.addEventListener('ended', () => el.classList.remove('activa'));
+    el.addEventListener('click', () => tocar(s));
+    contenedor.appendChild(el);
+    mapa[s.key] = s;
+  }
+  sonidos.forEach(s => crear(s, document.getElementById('tablero')));
+  extras.forEach(s => crear(s, document.getElementById('extras')));
+
+  function tocar(s) {
+    if (s.fondo && !s.audio.paused) { s.audio.pause(); s.el.classList.remove('activa'); return; }
+    s.audio.currentTime = 0;
+    s.audio.play();
+    s.el.classList.add('activa');
+    if (s.rayo) {
+      const f = document.getElementById('flash');
+      f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+    }
+  }
+
+  function pararTodo() {
+    Object.values(mapa).forEach(s => { s.audio.pause(); s.audio.currentTime = 0; s.el.classList.remove('activa'); });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') return pararTodo();
+    const s = mapa[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+    if (!s) return;
+    e.preventDefault();
+    if (!e.repeat) tocar(s);
+  });
+</script>
+</body>
+</html>
