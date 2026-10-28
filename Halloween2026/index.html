@@ -232,7 +232,7 @@
   <section class="extras" id="extras" aria-label="Sonidos extra"></section>
 
   <footer>
-    <span><b>Esc</b> detiene todos los sonidos · también puedes hacer clic en las cartas</span>
+    <span>Un toque reproduce, otro lo detiene · <b>Esc</b> detiene todos · también puedes hacer clic en las cartas</span>
     <button class="parar" id="parar">Silencio</button>
   </footer>
 </div>
@@ -253,7 +253,7 @@
   const extras = [
     { key:'d', tecla:'D', nombre:'Pasos',        cita:'Se acercan',          dibujo:'pasos', color:'#c9925f', src:'sonidos/pasos.mp3' },
     { key:'f', tecla:'F', nombre:'Risa malvada', cita:'Ja… ja… ja…',         dibujo:'risa',  color:'#ff3355', src:'sonidos/risa.mp3' },
-    { key:'g', tecla:'G', nombre:'Ambiente',     cita:'Música de fondo · on/off', dibujo:'fondo', color:'#8f9bff', src:'sonidos/fondo.mp3', fondo:true },
+    { key:'g', tecla:'G', nombre:'Ambiente',     cita:'Música de fondo en bucle', dibujo:'fondo', color:'#8f9bff', src:'sonidos/fondo.mp3', fondo:true },
   ];
 
   const arte = n => dibujos[n].replace('<svg ', '<svg preserveAspectRatio="xMidYMid slice" ');
@@ -294,7 +294,8 @@
   const aparicion = document.getElementById('aparicion');
   function tocar(s) {
     cerrarIntro();
-    if (s.fondo && !s.audio.paused) return apagar(s, true);
+    // Un toque reproduce desde el principio; otro toque lo detiene (stop)
+    if (!s.audio.paused) return apagar(s, true);
     s.audio.currentTime = 0;
     s.audio.play().catch(() => {});
     s.el.classList.add('activa');
