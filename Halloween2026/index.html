@@ -142,6 +142,13 @@
   .extras .info h3 { font-size:14px; }
   .extras .info q { font-size:12px; }
   .extras .pie { padding:0; margin:0; gap:10px; }
+  .volumen { display:flex; align-items:center; gap:12px; padding:10px 18px; border-radius:999px; border:1px solid var(--linea);
+    background:linear-gradient(180deg, rgba(20,22,34,.78), rgba(8,9,14,.92)); font-size:13px; color:var(--tenue); }
+  .volumen b { color:var(--tinta); font-weight:500; min-width:3.5ch; text-align:right; }
+  .volumen input { -webkit-appearance:none; appearance:none; width:150px; height:4px; border-radius:4px; cursor:inherit;
+    background:linear-gradient(90deg, #8f9bff var(--v), rgba(255,255,255,.15) var(--v)); }
+  .volumen input::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:#8f9bff; box-shadow:0 0 10px #8f9bff; }
+  .volumen input::-moz-range-thumb { width:16px; height:16px; border:0; border-radius:50%; background:#8f9bff; box-shadow:0 0 10px #8f9bff; }
 
   footer { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; padding:clamp(28px,5vh,56px) 0 40px; color:var(--tenue); font-size:13px; border-top:1px solid var(--linea); margin-top:clamp(24px,5vh,56px); }
   footer b { color:var(--tinta); font-weight:500; }
@@ -275,7 +282,7 @@
     s.ondas = [...el.querySelectorAll('.ondas i')];
     s.audio = new Audio(s.src);
     s.audio.preload = 'auto';
-    if (s.fondo) { s.audio.loop = true; s.audio.volume = .55; }
+    if (s.fondo) s.audio.loop = true;
     s.audio.addEventListener('ended', () => apagar(s));
     el.addEventListener('click', () => tocar(s));
     // Inclinación 3D
@@ -290,6 +297,25 @@
   }
   sonidos.forEach((s, i) => crear(s, i, document.getElementById('tablero')));
   extras.forEach((s, i) => crear(s, i + sonidos.length, document.getElementById('extras')));
+
+  // Volumen del ambiente (G), independiente del resto; se recuerda en este navegador
+  const ambiente = mapa['g'].audio;
+  const vol = document.createElement('label');
+  vol.className = 'volumen';
+  vol.innerHTML = 'Volumen ambiente <input type="range" min="0" max="100" step="1" aria-label="Volumen del ambiente"> <b></b>';
+  document.getElementById('extras').appendChild(vol);
+  const rango = vol.querySelector('input'), etiqueta = vol.querySelector('b');
+  function fijarVolumen(v) {
+    ambiente.volume = v / 100;
+    rango.value = v; rango.style.setProperty('--v', v + '%'); etiqueta.textContent = v + '%';
+    try { localStorage.setItem('volAmbiente', v); } catch (e) {}
+  }
+  let guardado = null;
+  try { guardado = localStorage.getItem('volAmbiente'); } catch (e) {}
+  fijarVolumen(guardado !== null ? +guardado : 55);
+  rango.addEventListener('input', () => fijarVolumen(+rango.value));
+  // Suelta el foco para que las flechas del Makey Makey sigan lanzando sonidos
+  rango.addEventListener('change', () => rango.blur());
 
   const aparicion = document.getElementById('aparicion');
   function tocar(s) {
